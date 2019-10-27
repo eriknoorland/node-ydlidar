@@ -1,0 +1,34 @@
+{
+  "name": "node-ydlidar",
+  "version": "0.0.1",
+  "description": "A Node module to communicate with the YDLidar over USB",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eriknoorland/node-ydlidar.git"
+  },
+  "keywords": [
+    "node-ydlidar",
+    "ydlidar",
+    "node",
+    "javascript",
+    "lidar",
+    "serial",
+    "usb"
+  ],
+  "author": "Erik Noorland <mail@eriknoorland.nl> (eriknoorland.nl)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eriknoorland/node-ydlidar/issues"
+  },
+  "homepage": "https://github.com/eriknoorland/node-ydlidar#readme",
+  "dependencies": {
+    "serialport": "^7.1.5"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  }
+}
