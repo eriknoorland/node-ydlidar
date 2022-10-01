@@ -58,9 +58,10 @@ class Parser extends Transform {
 
             const dataPoints = packet.slice(numDescriptorBytes)
               .reduce(getMeasuredDistances, [])
-              .map(mapMeasurements.bind(null, startAngle, endAngle));
-
-            this.emit('scan_data', dataPoints);
+              .map(mapMeasurements.bind(null, startAngle, endAngle))
+              .forEach(dataPoint => {
+                this.emit('scan_data', dataPoint);
+              });
           }
         }
       }
