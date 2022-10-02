@@ -5,9 +5,10 @@ const Parser = require('./Parser');
 /**
  * YDLidar
  * @param {String} path
+ * @param {Object} options
  * @return {Object}
  */
-const YDLidar = (path) => {
+const YDLidar = (path, options = {}) => {
   const eventEmitter = new EventEmitter();
 
   let parser;
@@ -29,7 +30,7 @@ const YDLidar = (path) => {
       }
 
       port = new SerialPort(path, { baudRate: 115200 });
-      parser = port.pipe(new Parser());
+      parser = port.pipe(new Parser(options.angleOffset || 0));
 
       parser.on('scan_data', (data) => {
         eventEmitter.emit('data', data);

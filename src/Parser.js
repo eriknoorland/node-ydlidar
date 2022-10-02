@@ -10,10 +10,12 @@ const numDescriptorBytes = 10;
 class Parser extends Transform {
   /**
    * Constructor
+   * @param {Number} angleOffset
    */
-  constructor() {
+  constructor(angleOffset) {
     super();
 
+    this.angleOffset = angleOffset;
     this.startFlags = Buffer.from([0xAA, 0x55]);
     this.buffer = Buffer.alloc(0);
   }
@@ -42,7 +44,6 @@ class Parser extends Transform {
           const lsaMSB = this.buffer[packetStart + 7];
           const csLSB = this.buffer[packetStart + 8];
           const csMSB = this.buffer[packetStart + 9];
-
           const dataLength = lsMSB * 2;
 
           if (this.buffer.length > packetStart + numDescriptorBytes + dataLength) {
@@ -50,17 +51,33 @@ class Parser extends Transform {
             const startAngle = (bytesToInt([fsaMSB, fsaLSB]) >> 1) / 64;
             const endAngle = (bytesToInt([lsaMSB, lsaLSB]) >> 1) / 64;
             const checkCode = csLSB;
-
             const packetEnd = packetStart + numDescriptorBytes + dataLength;
             const packet = this.buffer.slice(packetStart, packetEnd);
 
             this.buffer = this.buffer.slice(packetEnd);
 
-            const dataPoints = packet.slice(numDescriptorBytes)
+            packet.slice(numDescriptorBytes)
               .reduce(getMeasuredDistances, [])
               .map(mapMeasurements.bind(null, startAngle, endAngle))
-              .forEach(dataPoint => {
-                this.emit('scan_data', dataPoint);
+              .forEach(({ angle, distance }) => {
+                if (!angle || !distance) {
+                  return;
+                }
+
+                let offsettedAngle = angle + this.angleOffset;
+
+                if (offsettedAngle < 0) {
+                  offsettedAngle = 360 - offsettedAngle;
+                }
+
+                if (offsettedAngle > 360) {
+                  offsettedAngle %= 360;
+                }
+
+                this.emit('scan_data', {
+                  angle: offsettedAngle,
+                  distance,
+                });
               });
           }
         }
