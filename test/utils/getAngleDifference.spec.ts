@@ -1,5 +1,5 @@
-const assert = require('assert');
-const getAngleDifference = require('../../src/utils/getAngleDifference');
+import assert from 'assert';
+import getAngleDifference from '../../src/utils/getAngleDifference';
 
 describe('utils', () => {
   describe('#getAngleDifference()', () => {

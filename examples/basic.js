@@ -1,4 +1,4 @@
-const YDLidar = require('../src/YDLidar');
+const YDLidar = require('../dist/index.cjs');
 const lidar = YDLidar('/dev/tty.SLAB_USBtoUART');
 
 lidar.on('data', (data) => {

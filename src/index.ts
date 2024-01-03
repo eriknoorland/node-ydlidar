@@ -1,35 +1,21 @@
-const EventEmitter = require('events');
-const SerialPort = require('serialport');
-const Parser = require('./Parser');
+import EventEmitter from 'events';
+import { SerialPort } from 'serialport';
+import Parser from './Parser';
+import { Options } from './interfaces';
 
-/**
- * YDLidar
- * @param {String} path
- * @param {Object} options
- * @return {Object}
- */
-const YDLidar = (path, options = {}) => {
+const YDLidar = (path: string, options: Options = {}) => {
   const eventEmitter = new EventEmitter();
 
-  let parser;
-  let port;
+  let port: SerialPort;
+  let parser: Parser;
 
-  /**
-   * Constructor
-   */
-  function constructor() {}
-
-  /**
-   * Init
-   * @return {Promise}
-   */
-  function init() {
+  function init(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (port) {
         setTimeout(reject, 0);
       }
 
-      port = new SerialPort(path, { baudRate: 115200 });
+      port = new SerialPort({ path, baudRate: 115200 });
       parser = port.pipe(new Parser(options.angleOffset || 0));
 
       parser.on('scan_data', (data) => {
@@ -43,11 +29,7 @@ const YDLidar = (path, options = {}) => {
     });
   }
 
-  /**
-   * Port open event handler
-   * @param {Function} resolve
-   */
-  function onPortOpen(resolve) {
+  function onPortOpen(resolve: Function) {
     port.flush(error => {
       if (error) {
         eventEmitter.emit('error', error);
@@ -57,13 +39,11 @@ const YDLidar = (path, options = {}) => {
     });
   }
 
-  constructor();
-
-  return {
+  return Object.freeze({
     init,
     on: eventEmitter.on.bind(eventEmitter),
     off: eventEmitter.off.bind(eventEmitter),
-  };
+  });
 };
 
 module.exports = YDLidar;

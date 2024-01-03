@@ -1,5 +1,5 @@
-const assert = require('assert');
-const bytesToInt = require('../../src/utils/bytesToInt');
+import assert from 'assert';
+import bytesToInt from '../../src/utils/bytesToInt';
 
 describe('utils', () => {
   describe('#bytesToInt()', () => {

@@ -1,18 +1,17 @@
-const Transform = require('stream').Transform;
-const bytesToInt = require('./utils/bytesToInt');
-const getMeasuredDistances = require('./utils/getMeasuredDistances');
-const mapMeasurements = require('./utils/mapMeasurements');
+import { Transform } from 'stream';
+import bytesToInt from'./utils/bytesToInt';
+import getMeasuredDistances from'./utils/getMeasuredDistances';
+import mapMeasurements from'./utils/mapMeasurements';
+import { Measurement } from './interfaces';
+
 const numDescriptorBytes = 10;
 
-/**
- * Parser
- */
 class Parser extends Transform {
-  /**
-   * Constructor
-   * @param {Number} angleOffset
-   */
-  constructor(angleOffset) {
+  private angleOffset: number;
+  private startFlags: Buffer;
+  private buffer: Buffer;
+
+  constructor(angleOffset: number) {
     super();
 
     this.angleOffset = angleOffset;
@@ -20,13 +19,7 @@ class Parser extends Transform {
     this.buffer = Buffer.alloc(0);
   }
 
-  /**
-   * Transform
-   * @param {Buffer} chunk
-   * @param {String} encoding
-   * @param {Function} callback
-   */
-  _transform(chunk, encoding, callback) {
+  _transform(chunk: Buffer, encoding: string, callback: Function) {
     this.buffer = Buffer.concat([this.buffer, chunk]);
 
     for (let j = 0; j < this.buffer.length; j++) {
@@ -56,10 +49,10 @@ class Parser extends Transform {
 
             this.buffer = this.buffer.slice(packetEnd);
 
-            packet.slice(numDescriptorBytes)
+            [...packet.slice(numDescriptorBytes)]
               .reduce(getMeasuredDistances, [])
               .map(mapMeasurements.bind(null, startAngle, endAngle))
-              .forEach(({ angle, distance }) => {
+              .forEach(({ angle, distance }: Measurement) => {
                 if (!angle || !distance) {
                   return;
                 }
@@ -88,4 +81,4 @@ class Parser extends Transform {
   }
 }
 
-module.exports = Parser;
+export default Parser;
