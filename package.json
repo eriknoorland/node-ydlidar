@@ -20,7 +20,6 @@
   "author": "Erik Noorland <mail@eriknoorland.nl> (eriknoorland.nl)",
   "license": "",
   "dependencies": {
-    "@eriknoorland/nodebot-utils": "^1.1.2",
     "serialport": "^10"
   },
   "devDependencies": {
