@@ -23,7 +23,6 @@ export default [
         'events',
         'stream',
         'serialport',
-        '@eriknoorland/nodebot-utils',
       ],
       plugins: [
         typescript({
