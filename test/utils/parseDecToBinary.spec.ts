@@ -1,5 +1,5 @@
-const assert = require('assert');
-const parseDecToBinary = require('../../src/utils/parseDecToBinary');
+import assert from 'assert';
+import parseDecToBinary from '../../src/utils/parseDecToBinary';
 
 describe('utils', () => {
   describe('#parseDecToBinary()', () => {

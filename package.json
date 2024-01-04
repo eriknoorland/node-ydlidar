@@ -1,14 +1,12 @@
 {
-  "name": "node-ydlidar",
-  "version": "0.0.1",
+  "name": "@eriknoorland/node-ydlidar",
+  "version": "0.1.0",
   "description": "A Node module to communicate with the YDLidar over USB",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eriknoorland/node-ydlidar.git"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} mocha --recursive"
   },
   "keywords": [
     "node-ydlidar",
@@ -20,15 +18,20 @@
     "usb"
   ],
   "author": "Erik Noorland <mail@eriknoorland.nl> (eriknoorland.nl)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/eriknoorland/node-ydlidar/issues"
-  },
-  "homepage": "https://github.com/eriknoorland/node-ydlidar#readme",
+  "license": "",
   "dependencies": {
-    "serialport": "^8.0.8"
+    "serialport": "^10"
   },
   "devDependencies": {
-    "mocha": "^6.2.2"
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.6",
+    "mocha": "^10",
+    "rollup": "^4.9.2",
+    "rollup-plugin-dts": "^6.1.0",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
   }
 }
