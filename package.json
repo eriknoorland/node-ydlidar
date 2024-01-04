@@ -1,6 +1,6 @@
 {
   "name": "@eriknoorland/node-ydlidar",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A Node module to communicate with the YDLidar over USB",
   "main": "index.js",
   "scripts": {
